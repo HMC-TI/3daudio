@@ -133,7 +133,7 @@ public class GetIRF {
         	while ((line = bufferedReader.readLine()) != null)
             {
             	sample = Double.parseDouble(line);
-            	System.err.println("Sample is "+sample);
+            	System.out.println("Sample is "+sample);
             	if(irf_data[el_index][az_index] == null)
         		{
         			irf_data[el_index][az_index] = new IRF_DATUM();
@@ -194,12 +194,10 @@ public class GetIRF {
 		String hrtfname;
 		if (elev < 0) {
 			int mag = Math.abs(elev);
-			hrtfname = String.format("raw/h_%de%03da.txt", mag, azim);
-			System.out.println("hrtfname neg: " + hrtfname);
+			hrtfname = String.format("..\\..\\..\\..\\res\\raw\\h_%de%03da.txt", mag, azim);
 		}
 		else
-			hrtfname = String.format("raw/h%de%03da.txt", elev, azim);
-			System.out.println("hrtfname pos: " + hrtfname);
+			hrtfname = String.format("..\\..\\..\\..\\res\\raw\\h%de%03da.txt", elev, azim);
 		return hrtfname;
 	}
 	
@@ -232,10 +230,9 @@ public class GetIRF {
 		last_flip_flag = cur_flip_flag;
 
 		//Get data and flip channels if necessary.
-		System.err.println("ASDFHSDKJFHSKJDFHKSJDHFKSJDFHSKJD");
 		hd = irf_data[cur_el_index][cur_az_index];
-		//hd.left = irf_data[cur_el_index][cur_az_index].left;
-		//hd.right = irf_data[cur_el_index][cur_az_index].right;
+		hd.left = irf_data[cur_el_index][cur_az_index].left;
+		hd.right = irf_data[cur_el_index][cur_az_index].right;
 
 		float[] temp;
 		if (cur_flip_flag) 
