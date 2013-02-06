@@ -36,8 +36,8 @@ public class Audio3D {
 	/******************************************************
 	 * New variables
 	 ******************************************************/
-	float[][] irfBufR = new float [2][time_samples];
-	float[][] oldIrfR = new float [2][time_samples];
+	static float[][] irfBufR = new float [2][time_samples];
+	static float[][] oldIrfR = new float [2][time_samples];
 	/*******************************************************/
 	static float[][] oldIrf = new float [2][time_samples];
 	static float[] oldOut_l = new float[time_samples];
@@ -171,7 +171,7 @@ public class Audio3D {
 	/*************************************************
 	 * New function
 	 **************************************************/
-	void loadIRFs(){
+	static void loadIRFs(){
 		if (chanFlag) {
 			// when you get the irf data for two channels then you need to get the irfs from 90 if the az = 0
 			irfBuf = getIrf.get_irf(elev, az + 90);
@@ -189,7 +189,7 @@ public class Audio3D {
 	 * we convolve the left chanel with both the left and the right irfs and do the same with the right
 	 * chanel. In this way we hope to capture the data from both the chanels.
 	 */
-	void createNewOutputs() {
+	static void createNewOutputs() {
 		if (chanFlag) { // If we're taking in 2 inputs, we need 4 convolutions
 			/************************************************
 			 * This has been changed
@@ -251,7 +251,7 @@ public class Audio3D {
 	 * If we have had a change in our irf buffer then we need to compute what the output signal
 	 * would be with the old irf buffer and then crossfade between the two outputs.
 	 */
-	void createOldConvolveAndCrossfade() {
+	static void createOldConvolveAndCrossfade() {
 		// we have both a left and a right chanel input
 		if (chanFlag) {
 			/*****************************************
@@ -320,7 +320,7 @@ public class Audio3D {
 
 	}
 	
-	void crossfade(float[] newIn, float[] oldIn, float[] out){
+	static void crossfade(float[] newIn, float[] oldIn, float[] out){
 		/*double[] temp = new double[time_samples];
 		 * I don't think you want to do this because otherwise you have to set you values
 		 * again. Instead add an out to the function and just put your desired variable in

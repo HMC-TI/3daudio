@@ -97,7 +97,6 @@ public class GetIRF {
 	public void read_irf(int el_index, int az_index)
 	{		
 		String filename = irf_name(el_index, az_index);
-		System.err.println("file name: " + filename);
 		
 		//BufferedReader bufferedReader = null;
 	    

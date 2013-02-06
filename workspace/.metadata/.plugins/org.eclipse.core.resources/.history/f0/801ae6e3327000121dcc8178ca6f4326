@@ -45,7 +45,7 @@ public class GetIRF {
 	 ****************************************************/
 	//14 different elevations at 10 degree increments (-40 to 90)
 	//72 different azimuth measurements MAXIMUM (some are less)
-	public IRF_DATUM[][] irf_data;
+	public static IRF_DATUM[][] irf_data = new IRF_DATUM[14][72];
 	
 	/******************
 	 * I don't think you need these parameters
@@ -53,7 +53,6 @@ public class GetIRF {
 	 * @param elevation
 	******************* */
 	GetIRF () {
-		irf_data = new IRF_DATUM[14][72];
 		read_irfs();
 		
 		/*********************************
@@ -97,7 +96,6 @@ public class GetIRF {
 	public void read_irf(int el_index, int az_index)
 	{		
 		String filename = irf_name(el_index, az_index);
-		System.err.println("file name: " + filename);
 		
 		//BufferedReader bufferedReader = null;
 	    
@@ -111,7 +109,7 @@ public class GetIRF {
 		//InputStream inputStream = ctx.getResources().openRawResource(resId);
 		//InputStreamReader inputreader = new InputStreamReader(inputStream);
     	//BufferedReader buffreader = new BufferedReader(new InputStreamReader(inputStream));
-    	//BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(this.getResources().openRawResource(R.raw.textfile)));
+    	//BufferedReader buffreader = new BufferedReader(new InputStreamReader(this.getResources().openRawResource(R.raw.textfile)));
 		
 		//String file = "raw/h_10e000a.txt";
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
@@ -205,7 +203,7 @@ public class GetIRF {
 		return hrtfname;
 	}
 	
-	public float[][] get_irf(double elev, double azim)
+	public static float[][] get_irf(double elev, double azim)
 	{
 		/*
 		 * Returns a 2D array with the left channel IRFs in [0] row and
@@ -234,7 +232,7 @@ public class GetIRF {
 		last_flip_flag = cur_flip_flag;
 
 		//Get data and flip channels if necessary.
-		System.err.println("ASDFHSDKJFHSKJDFHKSJDHFKSJDFHSKJD");
+		System.out.println("ASDFHSDKJFHSKJDFHKSJDHFKSJDFHSKJD");
 		hd = irf_data[cur_el_index][cur_az_index];
 		//hd.left = irf_data[cur_el_index][cur_az_index].left;
 		//hd.right = irf_data[cur_el_index][cur_az_index].right;
