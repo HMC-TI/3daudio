@@ -1,3 +1,10 @@
+/*
+ * Modified by Kacyn Fujii (kacyn_fujii@hmc.edu) on 2/6/13
+ * Fixed functionality for reading in files from raw folder
+ * 
+ */
+
+
 package com.example.audioplayback;
 import java.io.BufferedReader;
 import java.io.InputStream;
@@ -56,6 +63,8 @@ public class GetIRF {
 		irf_data = new IRF_DATUM[14][72];
 		read_irfs();
 		
+		System.err.println("Finished loading IRFs");
+		
 		/*********************************
 		 * Why is there data in here already? shouldn't
 		 * it be general azimuth and elevation?
@@ -113,7 +122,9 @@ public class GetIRF {
     	//BufferedReader buffreader = new BufferedReader(new InputStreamReader(inputStream));
     	//BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(this.getResources().openRawResource(R.raw.textfile)));
 		
-		//String file = "raw/h_10e000a.txt";
+		//String file = "res/raw/h_10e000a.txt";
+		
+		System.err.println("get Resource as Stream: " + getClass().getClassLoader().getResourceAsStream(filename));
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
 		//InputStreamReader inputreader = new InputStreamReader(in);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -130,15 +141,18 @@ public class GetIRF {
             
          //   while ((line = bufferedReader.readLine()) != null) 
         	
-
+        	line = bufferedReader.readLine();
+        	System.out.println("line: " + line);
         	
-        	while ((line = bufferedReader.readLine()) != null)
-            {
+        	while (line != null)
+            {	
             	sample = Double.parseDouble(line);
-            	System.err.println("Sample is "+sample);
+            	System.out.println("Sample is "+sample);
+            	System.out.println("Sample to float is " + (float) sample);
             	if(irf_data[el_index][az_index] == null)
         		{
         			irf_data[el_index][az_index] = new IRF_DATUM();
+        			//irf_data[el_index][az_index].left = new float[]
         		}
             	
             	//if time_samples > 128, then it is the right side
@@ -152,11 +166,18 @@ public class GetIRF {
             	//if time samples <= 128, it is on the left side
             	else if(linecount > -1)
             	{		
+            		System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
+            		
             		irf_data[el_index][az_index].left[linecount] = (float) sample;
             	}
             	
             	linecount++;
-
+            	System.out.println("linecount " + linecount);
+            	
+        		line = bufferedReader.readLine();
+            	System.out.println("line: " + line);
+            	
+            	System.out.println("Made it to the end of the file");
             }
         } 
         catch (FileNotFoundException ex) 
@@ -196,7 +217,7 @@ public class GetIRF {
 		String hrtfname;
 		if (elev < 0) {
 			int mag = Math.abs(elev);
-			hrtfname = String.format("raw/h_%de%03da.txt", mag, azim);
+			hrtfname = String.format("res/raw/h_%de%03da.txt", mag, azim);
 			System.out.println("hrtfname neg: " + hrtfname);
 		}
 		else
