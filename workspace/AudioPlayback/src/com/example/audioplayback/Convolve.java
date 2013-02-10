@@ -36,7 +36,6 @@ public class Convolve extends Thread {
 		// length of out - 128
 		int skipEnd = 254;
 		
-		
 		for (int i = 0; i < time_samples; i++){
 			for (int j = 0; j < (time_samples + time_samples); j++){
 				if (!((i+j) < skipFront) && !((i+j) > skipEnd)) {

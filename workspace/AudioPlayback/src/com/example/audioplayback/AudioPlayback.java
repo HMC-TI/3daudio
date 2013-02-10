@@ -20,7 +20,11 @@ public class AudioPlayback extends Activity
             float angle = 0;
             AndroidAudioDevice device = new AndroidAudioDevice( );
             float samples[] = new float[128];
- 
+           	Audio3D audioModder = new Audio3D(samples, samples, 0, 5, 0, false);
+           	audioModder.init();
+           	// Up until this point, all data is what we think it should be
+            IRF_DATUM finalOut = new IRF_DATUM();
+            
             while( true )
             {
                for( int i = 0; i < samples.length; i++ )
@@ -29,7 +33,7 @@ public class AudioPlayback extends Activity
                   angle += increment;
                }
                
-           	// Generate input azimuth
+           	/* Generate input azimuth
            	GenAzim azimGen = new GenAzim(0);
            	azimGen.run();
            	
@@ -38,10 +42,11 @@ public class AudioPlayback extends Activity
            	
            	// Generate input distance
            	int dist = 5;
-           	
+           	*/
+               // Update position
+               audioModder.updateLocation(0, 0, 5); // Change this to actual changing values later
            	// Instantiate Audio3D class and output datum
-           	Audio3D audioModder = new Audio3D(samples, samples, azimGen.az, dist, el, false);
-            IRF_DATUM finalOut = new IRF_DATUM();
+           	//Audio3D audioModder = new Audio3D(samples, samples, azimGen.az, dist, el, false);
                
                // Futz the input sound 
            	finalOut = audioModder.runAudio3D();

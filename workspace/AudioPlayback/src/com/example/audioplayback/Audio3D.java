@@ -3,12 +3,16 @@ import java.util.Arrays;
 
 
 public class Audio3D {
+	// Just switch this to 0 to disable debug statements
+	static final int debug = 1;
+	
 	// Constants
 
 	//number of time samples
 	static final int time_samples = 128;
 	
 	// Public members
+	static boolean firstRun = true;
 	static int az;
 	static int dist;
 	static int oldAz = 0;
@@ -70,13 +74,11 @@ public class Audio3D {
 	}
 	
 	public IRF_DATUM runAudio3D() {
-		
-		// Read in 3D audio data from file
-		getIrf = new GetIRF();
-		getIrf.read_irfs();
+		if (debug == 1) System.out.println("Entered runAudio3D");
 
-		// Initialize ramp
-		init();
+
+		// Initialize ramp- Moved this outside the while loop in AudioPlayback
+		//init(); 
 		
 		// Initialize IRF stuff
 		/******************************
@@ -123,13 +125,28 @@ public class Audio3D {
 		/***************************************
 		 * New!!
 		 ****************************************/
-		loadIRFs();
+		loadIRFs(); 
+		
+		// The IRFs are intact for the first run, but they go to 0 from the second
+		// run on.. what's going on?
+		if (debug == 1) {
+			for (int i = 0; i < irfBuf[0].length; i++) {
+				System.out.println("Before createNewOutputs, left irf["+i+"]: "+irfBuf[0][i]);
+				System.out.println("Before createNewOutputs, left input["+i+"]: "+inBuf_l[i]);
+			}
+		}
 
 		// ////////////
 		// Convolve //
 		// ////////////
 		createNewOutputs();
-
+		// After the first run, everything is ruined by createNewOutputs, apparently
+		if (debug == 1) {
+			for (int i = 0; i < irfBuf[0].length; i++) {
+				//System.out.println("newOut_l["+i+"]: "+newOut_l[i]);
+			}
+		}
+		
 		// /////////////
 		// Crossfade //
 		// /////////////
@@ -150,6 +167,18 @@ public class Audio3D {
 		IRF_DATUM outputs = new IRF_DATUM();
 		outputs.right = newOut_r;
 		outputs.left = newOut_l;
+		
+		if (debug == 1) {
+			for (int i = 0; i < newOut_l.length; i++) {
+				//System.out.println("Left output["+i+"]: "+outputs.left[i]);
+			}
+		}
+		if (!firstRun) {
+			while (true) {}
+		} else {
+			System.out.println("This was the first run!");
+		}
+		firstRun = false; 
 		return outputs;
 	}
 	
@@ -159,7 +188,16 @@ public class Audio3D {
 	/*****************************************************
 	 * Changed this function
 	 *****************************************************/
-	static void init() {
+	void init() {
+		// Read in 3D audio data from file
+		GetIRF getIrf = new GetIRF();
+		getIrf.read_irfs();
+		// Check irfs
+		/*for (int i = 0; i < getIrf.irf_data[4][4].left.length; i++) {
+			// so we know irf_data gets populated properly
+			//System.out.println("Sample irf["+i+"]: "+getIrf.irf_data[4][4].left[i]);
+		}*/
+		firstRun = true;
 		for (int i = 0; i < time_samples; i++) { // Initialize ramps
 			rampUp[i] = (float) (i/(time_samples-1));
 			rampDn[i] = 1 - rampUp[i];
@@ -178,6 +216,7 @@ public class Audio3D {
 			irfBufR = getIrf.get_irf(elev, 180-(az+90));
 		}
 		else {
+			// Exception at this point. Why?
 			irfBuf = getIrf.get_irf(elev, az);
 		}
 	}
@@ -206,7 +245,6 @@ public class Audio3D {
 			new_lr.start();
 			
 			// waits for them to finish
-			// TODO: Add try/catches
 			try {
 				new_rl.join();
 				new_rr.join();
@@ -229,6 +267,13 @@ public class Audio3D {
 			Convolve new_ll = new Convolve(oldInBuf_l, inBuf_l, irfBuf[0]);
 			Convolve new_lr = new Convolve(oldInBuf_l, inBuf_l, irfBuf[1]);
 			
+			if (debug == 1) {
+				for (int i = 0; i < newOut_l.length; i++) {
+					System.out.println("Left irf["+i+"]: "+irfBuf[0][i]);
+					System.out.println("Left inbuf["+i+"]: "+inBuf_l[i]);
+					System.out.println("Old left inbuf["+i+"]: "+oldInBuf_l[i]);
+				}
+			}
 			// starts the threads and then waits for them to complete
 			new_ll.start();
 			new_lr.start();
@@ -329,5 +374,14 @@ public class Audio3D {
 			out[i] = newIn[i]*rampUp[i] + oldIn[i]*rampDn[i];
 		}
 		return;
+	}
+	
+	void updateLocation(int newaz, int newelev, int newdist) {
+		// Saves old az and elev- this may not be necessary, as it is done in runAudio3D
+		oldAz = az;
+		oldElev = elev;
+		dist = newdist;
+		az = newaz;
+		elev = newelev;
 	}
 }

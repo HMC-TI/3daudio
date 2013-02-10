@@ -14,6 +14,9 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class GetIRF {
+	
+	static final int debug = 1;
+	
 	//bounds on elevation values
 	static final int MIN_ELEV = -40;
 	static final int MAX_ELEV = 90;
@@ -63,7 +66,7 @@ public class GetIRF {
 		irf_data = new IRF_DATUM[14][72];
 		read_irfs();
 		
-		System.err.println("Finished loading IRFs");
+		//System.err.println("Finished loading IRFs");
 		
 		/*********************************
 		 * Why is there data in here already? shouldn't
@@ -106,7 +109,7 @@ public class GetIRF {
 	public void read_irf(int el_index, int az_index)
 	{		
 		String filename = irf_name(el_index, az_index);
-		System.err.println("file name: " + filename);
+		//System.err.println("file name: " + filename);
 		
 		//BufferedReader bufferedReader = null;
 	    
@@ -124,7 +127,7 @@ public class GetIRF {
 		
 		//String file = "res/raw/h_10e000a.txt";
 		
-		System.err.println("get Resource as Stream: " + getClass().getClassLoader().getResourceAsStream(filename));
+		//System.err.println("get Resource as Stream: " + getClass().getClassLoader().getResourceAsStream(filename));
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
 		//InputStreamReader inputreader = new InputStreamReader(in);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -142,13 +145,16 @@ public class GetIRF {
          //   while ((line = bufferedReader.readLine()) != null) 
         	
         	line = bufferedReader.readLine();
-        	System.out.println("line: " + line);
+        	
+        	if (debug == 1) {} //System.out.println("line: " + line);
         	
         	while (line != null)
             {	
             	sample = Double.parseDouble(line);
-            	System.out.println("Sample is "+sample);
-            	System.out.println("Sample to float is " + (float) sample);
+            	if (debug == 1) {
+            		//System.out.println("Sample is "+sample);
+            		//System.out.println("Sample to float is " + (float) sample);
+            	}
             	if(irf_data[el_index][az_index] == null)
         		{
         			irf_data[el_index][az_index] = new IRF_DATUM();
@@ -166,18 +172,21 @@ public class GetIRF {
             	//if time samples <= 128, it is on the left side
             	else if(linecount > -1)
             	{		
-            		System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
+            		//System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
             		
             		irf_data[el_index][az_index].left[linecount] = (float) sample;
             	}
             	
             	linecount++;
-            	System.out.println("linecount " + linecount);
+            	
+            	//if (debug == 1) {	System.out.println("linecount " + linecount); }
             	
         		line = bufferedReader.readLine();
-            	System.out.println("line: " + line);
-            	
-            	System.out.println("Made it to the end of the file");
+            	if (debug == 1) {
+	            	//System.out.println("line: " + line);
+	            	
+	            	//System.out.println("Made it to the end of the file");
+            	}
             }
         } 
         catch (FileNotFoundException ex) 
@@ -218,16 +227,17 @@ public class GetIRF {
 		if (elev < 0) {
 			int mag = Math.abs(elev);
 			hrtfname = String.format("res/raw/h_%de%03da.txt", mag, azim);
-			System.out.println("hrtfname neg: " + hrtfname);
+			if (debug == 1){} //	System.out.println("hrtfname neg: " + hrtfname);
 		}
 		else
 			hrtfname = String.format("raw/h%de%03da.txt", elev, azim);
-			System.out.println("hrtfname pos: " + hrtfname);
+			if (debug == 1){} //System.out.println("hrtfname pos: " + hrtfname);
 		return hrtfname;
 	}
 	
 	public float[][] get_irf(double elev, double azim)
 	{
+		System.out.println("Entered get_irf");
 		/*
 		 * Returns a 2D array with the left channel IRFs in [0] row and
 		 * the right channel IRFs in the [1] row. Uses a special datatype, IRF_DATUM,
@@ -254,9 +264,11 @@ public class GetIRF {
 		last_az_index = cur_az_index;
 		last_flip_flag = cur_flip_flag;
 
+		System.out.println("About to access irf_data");
 		//Get data and flip channels if necessary.
-		System.err.println("ASDFHSDKJFHSKJDFHKSJDHFKSJDFHSKJD");
 		hd = irf_data[cur_el_index][cur_az_index];
+
+		System.out.println("Retrieved IRF_DATUM from irf_data");
 		//hd.left = irf_data[cur_el_index][cur_az_index].left;
 		//hd.right = irf_data[cur_el_index][cur_az_index].right;
 
