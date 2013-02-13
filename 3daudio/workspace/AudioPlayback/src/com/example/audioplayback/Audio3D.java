@@ -218,13 +218,23 @@ public class Audio3D {
 			Convolve new_lr = new Convolve(oldInBuf_r, inBuf_r, irfBufR[1]);
 			
 			// starts threads
-			new_rl.start();
-			new_rr.start();
-			new_ll.start();
-			new_lr.start();
+			new_rl.execute();
+			new_rr.execute();
+			new_ll.execute();
+			new_lr.execute();
 			
-			// waits for them to finish
-			try {
+			// TODO: waits for them to finish
+			/*
+			 * All research says you shouldn't
+			 * have the main thread waiting on
+			 * an AsyncTask, so I'm not sure
+			 * how to do this... We could have
+			 * a flat wait() for some amount of
+			 * time but that seems clumsy and
+			 * inflexible to diff platforms.
+			 * - Paula
+			 */
+			/*try {
 				new_rl.join();
 				new_rr.join();
 				new_ll.join();
@@ -232,7 +242,7 @@ public class Audio3D {
 			}
 			catch (InterruptedException e) {
 				System.out.println(e);
-			}
+			}*/
 			// ///////
 			// Sum //
 			// ///////
@@ -247,15 +257,17 @@ public class Audio3D {
 			Convolve new_lr = new Convolve(oldInBuf_l, inBuf_l, irfBuf[1]);
 			
 			// starts the threads and then waits for them to complete
-			new_ll.start();
-			new_lr.start();
-			try {
+			new_ll.execute();
+			new_lr.execute();
+			
+			// TODO: Wait for AsyncTask to complete
+			/*try {
 				new_ll.join();
 				new_lr.join();
 			}
 			catch (InterruptedException e) {
 				System.out.println(e);
-			}
+			}*/
 
 			// ////////////////////////
 			// No summing necessary //
@@ -280,12 +292,13 @@ public class Audio3D {
 			Convolve old_ll = new Convolve(oldInBuf_r, inBuf_r, oldIrfR[1]);
 			
 			// starts the threads
-			old_rl.start();
-			old_rr.start();
-			old_ll.start();
-			old_lr.start();
-			// waits for them to complete
-			try {
+			old_rl.execute();
+			old_rr.execute();
+			old_ll.execute();
+			old_lr.execute();
+
+			// TODO: Wait for AsyncTask to complete
+			/*try {
 				old_rl.join();
 				old_rr.join();
 				old_ll.join();
@@ -293,7 +306,7 @@ public class Audio3D {
 			}
 			catch (InterruptedException e) {
 				System.out.println(e);
-			}
+			}*/
 
 			// ///////
 			// Sum //
@@ -307,15 +320,18 @@ public class Audio3D {
 			Convolve old_ll = new Convolve(oldInBuf_l, inBuf_l, oldIrf[0]);
 			Convolve old_lr = new Convolve(oldInBuf_l, inBuf_l, oldIrf[1]);
 			// starts threads and then waits for them to complete
-			old_ll.start();
-			old_lr.start();
-			try {
+			old_ll.execute();
+			old_lr.execute();
+
+			// TODO: Wait for AsyncTask to complete
+			
+			/*try {
 				old_ll.join();
 				old_lr.join();
 			}
 			catch (InterruptedException e) {
 				System.out.println(e);
-			}
+			}*/
 
 			// ////////////////////////
 			// No summing necessary //

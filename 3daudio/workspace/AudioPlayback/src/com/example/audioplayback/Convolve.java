@@ -1,7 +1,8 @@
 package com.example.audioplayback;
 import java.util.Arrays;
+import android.os.AsyncTask;
 
-public class Convolve extends Thread {
+public class Convolve extends AsyncTask <Void, Void, Void>{
 			
 	/* 
 	 * This function convolves the inputs x*y and puts them into the
@@ -19,18 +20,7 @@ public class Convolve extends Thread {
 	float[] y = new float[time_samples];
 	public float[] out = new float[time_samples];
 	
-	
-	
-	Convolve(float[] xOld, float[] x, float[] y){
-		// Constructor
-		this.xOld = xOld;
-		this.x = x;
-		this.y = y;
-		// fills out with zeros so that there is no confusion
-		Arrays.fill(this.out, 0);
-	}
-	
-	public void run(){
+	public Void doInBackground(Void... args0){
 		// length of out - 128 - N
 		int skipFront = 127;
 		// length of out - 128
@@ -50,6 +40,17 @@ public class Convolve extends Thread {
 			}
 		}
 		
-		return;
+		return null;
 	}
+	
+	Convolve(float[] xOld, float[] x, float[] y){
+		// Constructor
+		this.xOld = xOld;
+		this.x = x;
+		this.y = y;
+		// fills out with zeros so that there is no confusion
+		Arrays.fill(this.out, 0);
+	}
+	
+
 }
