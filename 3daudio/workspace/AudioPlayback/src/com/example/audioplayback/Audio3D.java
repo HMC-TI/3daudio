@@ -1,5 +1,6 @@
 package com.example.audioplayback;
 import java.util.Arrays;
+import java.util.concurrent.ExecutionException;
 
 
 public class Audio3D {	
@@ -222,27 +223,19 @@ public class Audio3D {
 			new_rr.execute();
 			new_ll.execute();
 			new_lr.execute();
-			
-			// TODO: waits for them to finish
-			/*
-			 * All research says you shouldn't
-			 * have the main thread waiting on
-			 * an AsyncTask, so I'm not sure
-			 * how to do this... We could have
-			 * a flat wait() for some amount of
-			 * time but that seems clumsy and
-			 * inflexible to diff platforms.
-			 * - Paula
-			 */
-			/*try {
-				new_rl.join();
-				new_rr.join();
-				new_ll.join();
-				new_lr.join();
+
+			// We make sure that it has completed or wait until it has.
+			try {
+				new_rl.get();
+				new_rr.get();
+				new_ll.get();
+				new_lr.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
 			}
-			catch (InterruptedException e) {
-				System.out.println(e);
-			}*/
+
 			// ///////
 			// Sum //
 			// ///////
@@ -260,15 +253,16 @@ public class Audio3D {
 			new_ll.execute();
 			new_lr.execute();
 			
-			// TODO: Wait for AsyncTask to complete
-			/*try {
-				new_ll.join();
-				new_lr.join();
+			// We make sure that it has completed or wait until it has.
+			try {
+				new_ll.get();
+				new_lr.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
 			}
-			catch (InterruptedException e) {
-				System.out.println(e);
-			}*/
-
+			
 			// ////////////////////////
 			// No summing necessary //
 			// ////////////////////////
@@ -297,16 +291,17 @@ public class Audio3D {
 			old_ll.execute();
 			old_lr.execute();
 
-			// TODO: Wait for AsyncTask to complete
-			/*try {
-				old_rl.join();
-				old_rr.join();
-				old_ll.join();
-				old_lr.join();
+			// We make sure that it has completed or wait until it has.
+			try {
+				old_rl.get();
+				old_rr.get();
+				old_ll.get();
+				old_lr.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
 			}
-			catch (InterruptedException e) {
-				System.out.println(e);
-			}*/
 
 			// ///////
 			// Sum //
@@ -323,15 +318,15 @@ public class Audio3D {
 			old_ll.execute();
 			old_lr.execute();
 
-			// TODO: Wait for AsyncTask to complete
-			
-			/*try {
-				old_ll.join();
-				old_lr.join();
+			// We make sure that it has completed or wait until it has.
+			try {
+				old_ll.get();
+				old_lr.get();
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			} catch (ExecutionException e) {
+				e.printStackTrace();
 			}
-			catch (InterruptedException e) {
-				System.out.println(e);
-			}*/
 
 			// ////////////////////////
 			// No summing necessary //
