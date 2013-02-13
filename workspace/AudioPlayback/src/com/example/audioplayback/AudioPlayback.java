@@ -20,7 +20,7 @@ public class AudioPlayback extends Activity
             float angle = 0;
             AndroidAudioDevice device = new AndroidAudioDevice( );
             float samples[] = new float[128];
-           	Audio3D audioModder = new Audio3D(samples, samples, 0, 5, 0, false);
+           	Audio3D audioModder = new Audio3D(samples, samples, 0.0, 5.0, 0.0, false);
            	audioModder.init();
            	// Up until this point, all data is what we think it should be
             IRF_DATUM finalOut = new IRF_DATUM();
@@ -44,7 +44,7 @@ public class AudioPlayback extends Activity
            	int dist = 5;
            	*/
                // Update position
-               audioModder.updateLocation(0, 0, 5); // Change this to actual changing values later
+               audioModder.updateLocation(0.0, 0.0, 5.0); // Change this to actual changing values later
            	// Instantiate Audio3D class and output datum
            	//Audio3D audioModder = new Audio3D(samples, samples, azimGen.az, dist, el, false);
                
