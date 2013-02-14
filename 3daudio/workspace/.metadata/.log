@@ -143,3 +143,6 @@ Command-line arguments:  -os macosx -ws cocoa -arch x86 -keyring /Users/carda/.e
 
 !ENTRY com.android.ide.eclipse.adt 4 0 2013-02-13 10:52:07.806
 !MESSAGE projectOpenedWithWorkspace: failed to find manifest package for project AudioPlayback
+
+!ENTRY org.eclipse.ui 2 2 2013-02-13 18:54:23.755
+!MESSAGE Invalid property category path: ValidationPropertiesPage (bundle: org.eclipse.wst.xml.ui, propertyPage: org.eclipse.wst.xml.ui.propertyPage.project.validation)
