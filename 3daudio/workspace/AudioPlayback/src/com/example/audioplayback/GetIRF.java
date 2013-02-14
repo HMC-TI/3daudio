@@ -55,23 +55,11 @@ public class GetIRF {
 	//72 different azimuth measurements MAXIMUM (some are less)
 	public IRF_DATUM[][] irf_data;
 	
-	/******************
-	 * I don't think you need these parameters
-	 * @param azimuth
-	 * @param elevation
-	******************* */
 	GetIRF () {
 		irf_data = new IRF_DATUM[14][72];
 		read_irfs();
 		
 		//System.err.println("Finished loading IRFs");
-		
-		/*********************************
-		 * Why is there data in here already? shouldn't
-		 * it be general azimuth and elevation?
-		 * 
-		 *********************************/
-		//return get_irf(50, 184);
 	}
 	
 	
@@ -79,11 +67,6 @@ public class GetIRF {
 	// Helper functions for getIrf //
 	/////////////////////////////////
 	//Reads in all IRFs by looping through all possible elevations and azimuths
-	/*****************
-	 * I don't think you need these parameters
-	 * @param az_index
-	 * @param el_index
-	 **********************/
 	public void read_irfs()
 	{
 		int nfaz;
@@ -108,8 +91,6 @@ public class GetIRF {
 	{		
 		String filename = irf_name(el_index, az_index);
 		//System.err.println("file name: " + filename);
-		
-		//BufferedReader bufferedReader = null;
 	    
 		//line number
 		int linecount = 0;
@@ -117,13 +98,6 @@ public class GetIRF {
 		int linecountmod = 0;
 		//time sample in double format
 		double sample;
-		
-		//InputStream inputStream = ctx.getResources().openRawResource(resId);
-		//InputStreamReader inputreader = new InputStreamReader(inputStream);
-    	//BufferedReader buffreader = new BufferedReader(new InputStreamReader(inputStream));
-    	//BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(this.getResources().openRawResource(R.raw.textfile)));
-		
-		//String file = "res/raw/h_10e000a.txt";
 		
 		//System.err.println("get Resource as Stream: " + getClass().getClassLoader().getResourceAsStream(filename));
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
@@ -133,15 +107,7 @@ public class GetIRF {
 		String line;
 		
         try 
-        {
-        	
-            //Construct the BufferedReader object
-         //   bufferedReader = new BufferedReader(new FileReader(filename));
-            
-          //  String line = null;
-            
-         //   while ((line = bufferedReader.readLine()) != null) 
-        	
+        {	
         	line = bufferedReader.readLine();
         	
         	while (line != null)
@@ -208,8 +174,6 @@ public class GetIRF {
 		int azim = index_to_azim(el_index, az_index);
 		
 		//pathname based on elev and azim
-		// TODO: CHANGE THIS PATH TO SUIT CURRENT MACHINE!
-		// Better yet, change it to a relative path!
 		String hrtfname;
 		if (elev < 0) {
 			int mag = Math.abs(elev);
