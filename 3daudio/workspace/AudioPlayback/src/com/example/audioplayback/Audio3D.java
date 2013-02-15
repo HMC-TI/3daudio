@@ -10,7 +10,6 @@ public class Audio3D {
 	static final int time_samples = 128;
 	
 	// Public members
-	static boolean firstRun = true;
 	static double az;
 	static double dist;
 	static double oldAz = 0;
@@ -20,9 +19,6 @@ public class Audio3D {
 	static float[] inBuf_r = new float[time_samples];
 	static float[] oldInBuf_l = new float[time_samples];
 	static float[] oldInBuf_r = new float[time_samples];
-	// why do we need outBuf and newOut? Aren't they the same thing?
-	//static double[] outBuf_l = new double[time_samples];
-	//static double[] outBuf_r = new double[time_samples];
 	static boolean chanFlag = false;
 	
 	
@@ -72,42 +68,6 @@ public class Audio3D {
 	}
 	
 	public IRF_DATUM runAudio3D() {
-
-
-		// Initialize ramp- Moved this outside the while loop in AudioPlayback
-		//init(); 
-		
-		// Initialize IRF stuff
-		/******************************
-		 *  Because we moved the IRF stuff we need to initialize the class
-		 *******************************/
-		/*GetIRF getIRF = new GetIRF();
-		
-		// continually updates the tone, azimuth etc and then computes calculations and plays them
-		while (true) {
-			// Generate changing azimuth
-			GenAzim aziGen = new GenAzim(0); // read azimuth by using aziGen.az
-			
-			 * Here to...
-			 
-			// Runs the methods to get new azimuth and a new set of tones
-			toneGen.start();
-			aziGen.start();
-			
-			// waits for this thread to complete before setting the new
-			// azimuth to the old value
-			aziGen.join();
-			az = aziGen.az;
-			
-			// waits for the tone to die
-			toneGen.join();
-			// setting up the input buffer
-			inBuf_l = toneGen.inBuf;
-			
-			 * Here should be in the other main and this should be a function which takes in
-			 * inbuf, az, elev, dist
-			 */
-
 		// ///////////////////////////
 		// Checks for cross-fading //
 		// ///////////////////////////
@@ -119,9 +79,6 @@ public class Audio3D {
 		// ////////////
 		// Get current IRFs //
 		// ////////////
-		/***************************************
-		 * New!!
-		 ****************************************/
 		loadIRFs(); 
 
 		// ////////////
@@ -136,26 +93,14 @@ public class Audio3D {
 			createOldConvolveAndCrossfade();
 		}
 
-		// Carries over the old azimuth and elevation for cross-fading
-		// purposes
-		oldAz = az;
-		oldElev = elev;
-		// Carries over the old IRFs, the old time samples
-		oldInBuf_l = inBuf_l;
-		oldInBuf_r = inBuf_r;
-		oldIrf = irfBuf;
-		oldIrfR = irfBufR;
+		// Updating input buffers and az/elev 
+		// is now taken care of in updateInbuf()
+		// and updateLocation()
 		
 		IRF_DATUM outputs = new IRF_DATUM();
 		outputs.right = newOut_r;
 		outputs.left = newOut_l;
 		
-		/*if (!firstRun) {
-			while (true) {}
-		} else {
-			System.out.println("This was the first run!");
-		}
-		firstRun = false; */
 		return outputs;
 	}
 	
@@ -169,13 +114,9 @@ public class Audio3D {
 		// Read in 3D audio data from file
 		GetIRF getIrf = new GetIRF();
 		getIrf.read_irfs();
-		// Check irfs
-		/*for (int i = 0; i < getIrf.irf_data[4][4].left.length; i++) {
-			// so we know irf_data gets populated properly
-			//System.out.println("Sample irf["+i+"]: "+getIrf.irf_data[4][4].left[i]);
-		}*/
-		firstRun = true;
-		for (int i = 0; i < time_samples; i++) { // Initialize ramps
+
+		// Initialize ramps
+		for (int i = 0; i < time_samples; i++) { 
 			rampUp[i] = (float) (i/(time_samples-1));
 			rampDn[i] = 1 - rampUp[i];
 			oldInBuf_r[i] = 0;
