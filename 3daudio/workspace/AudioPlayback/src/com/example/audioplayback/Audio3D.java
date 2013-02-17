@@ -48,6 +48,8 @@ public class Audio3D {
 	
 	public GetIRF getIrf = new GetIRF();
 	
+	private IRF_DATUM outputs = new IRF_DATUM();
+	
 	Audio3D(float[] inputL, float[] inputR, int azimuth, int distance, int elevation, boolean channels){
 		Audio3D.az = azimuth;
 		Audio3D.dist = distance;
@@ -55,7 +57,9 @@ public class Audio3D {
 		// If chanFlag is true, then we are taking in both L and R channel inputs. 
 		// Otherwise, we are only taking in one channel of input.
 		Audio3D.chanFlag = channels; 
-		if (chanFlag) {
+		/* We don't need to do this any more because our input is a float.
+		 * if (chanFlag) {
+		 
 			for (int i = 0; i < time_samples; i++) {
 				Audio3D.inBuf_l[i] = (float) inputL[i];
 				Audio3D.inBuf_r[i] = (float) inputR[i];
@@ -64,6 +68,14 @@ public class Audio3D {
 			for (int i = 0; i < time_samples; i++) {
 				Audio3D.inBuf_l[i] = (float) inputL[i];
 			}
+		}*/
+		
+		if (chanFlag){
+			Audio3D.inBuf_l = inputL;
+			Audio3D.inBuf_r = inputR;
+		}
+		else {
+			Audio3D.inBuf_l = inputL;
 		}
 	}
 	
@@ -71,6 +83,10 @@ public class Audio3D {
 		// ///////////////////////////
 		// Checks for cross-fading //
 		// ///////////////////////////
+		/*
+		 * This could be optimized because if the az = 1 and the oldAz = 0, we
+		 * are not actually going to need to crossfade.
+		 */
 		if ((oldAz != az) || (oldElev != elev))
 			cfFlag = true;
 		else
@@ -97,10 +113,11 @@ public class Audio3D {
 		// is now taken care of in updateInbuf()
 		// and updateLocation()
 		
-		IRF_DATUM outputs = new IRF_DATUM();
-		outputs.right = newOut_r;
-		outputs.left = newOut_l;
-		
+		/* We don't need to create a new one everytime, we can just have this be a variable.
+		 * IRF_DATUM outputs = new IRF_DATUM();
+		 * outputs.right = newOut_r;
+		 * outputs.left = newOut_l;
+		 */
 		return outputs;
 	}
 	
@@ -136,8 +153,6 @@ public class Audio3D {
 		
 		
 		else {
-			// Exception at this point. Why?
-			//System.out.println("The azimuth is "+az+". The elev is " + elev);
 			irfBuf = getIrf.get_irf(elev, az);
 		}
 	}
@@ -180,10 +195,22 @@ public class Audio3D {
 			// ///////
 			// Sum //
 			// ///////
-			for (int i = 0; i < time_samples; i++) {
-				newOut_l[i] = new_ll.out[i] + new_lr.out[i];
-				newOut_r[i] = new_rl.out[i] + new_rr.out[i];
+			/* We can save ourselves data transfer by just setting this to the output
+			 * if we are not crossfading.
+			 */
+			if (cfFlag) {
+				for (int i = 0; i < time_samples; i++) {
+					newOut_l[i] = new_ll.out[i] + new_lr.out[i];
+					newOut_r[i] = new_rl.out[i] + new_rr.out[i];
+				}
 			}
+			else {
+				for (int i = 0; i < time_samples; i++) {
+					outputs.left[i] = new_ll.out[i] + new_lr.out[i];
+					outputs.right[i] = new_rl.out[i] + new_rr.out[i];
+				}
+			}
+			
 		} else { // Otherwise, we need only two
 					// note: if we only have one input stream then we put it in
 					// inBuf_l
@@ -207,8 +234,18 @@ public class Audio3D {
 			// ////////////////////////
 			// No summing necessary //
 			// ////////////////////////
-			newOut_l = new_ll.out;
-			newOut_r = new_lr.out;
+			/*
+			 * If there is no crossfading, we can save ourselves some data
+			 * transfer but just making this the output.
+			 */
+			if (cfFlag) {
+				newOut_l = new_ll.out;
+				newOut_r = new_lr.out;
+			}
+			else {
+				outputs.right = new_lr.out;
+				outputs.left = new_ll.out;
+			}
 		}
 	}
 	/**
@@ -284,18 +321,19 @@ public class Audio3D {
 		 * We should check and make sure that this actually gives
 		 * us the desired values in newOut
 		 ********************************************************/
-		crossfade(newOut_l, oldOut_l, newOut_l);
-		crossfade(newOut_r, oldOut_r, newOut_r);
+		crossfade();
 
 	}
 	
-	void crossfade(float[] newIn, float[] oldIn, float[] out){
-		/*double[] temp = new double[time_samples];
-		 * I don't think you want to do this because otherwise you have to set you values
-		 * again. Instead add an out to the function and just put your desired variable in
+	void crossfade(){
+		/*
+		 * double[] temp = new double[time_samples]; I don't think you want to
+		 * do this because otherwise you have to set you values again. Instead
+		 * add an out to the function and just put your desired variable in
 		 */
 		for (int i = 0; i < time_samples; i++) {
-			out[i] = newIn[i]*rampUp[i] + oldIn[i]*rampDn[i];
+			outputs.left[i] = newOut_l[i] * rampUp[i] + oldOut_l[i] * rampDn[i];
+			outputs.right[i] = newOut_r[i] * rampUp[i] + oldOut_r[i] * rampDn[i];
 		}
 		return;
 	}
