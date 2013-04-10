@@ -8,7 +8,7 @@ public class ConvolveHack {
 	static final int time_samples = 128;
 
 	public static float[] convolve(float[] x, float[] y) {
-		float[] out = new float[time_samples];
+		float[] out = new float[hack_time_samples];
 
 		// length of out - 128 - N
 		int skipFront = 128;
@@ -17,9 +17,9 @@ public class ConvolveHack {
 		int skipEnd = hack_time_samples + time_samples * 2 - time_samples - 1;
 
 		// for all of y
-		for (int i = 0; i < time_samples; i++) {
+		for (int i = 0; i < y.length; i++) {
 			// for all of x
-			for (int j = 0; j < (hack_time_samples + time_samples); j++) {
+			for (int j = 0; j < x.length; j++) {
 				if (!((i + j) < skipFront) && !((i + j) > skipEnd)) {
 					out[i + j - skipFront] = out[i + j - skipFront] + x[j]* y[i];
 

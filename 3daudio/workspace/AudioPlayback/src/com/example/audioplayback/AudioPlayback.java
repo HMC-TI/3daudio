@@ -1,8 +1,11 @@
 package com.example.audioplayback;
 
+import java.util.Arrays;
+
 import android.os.Bundle;
 import android.app.Activity;
 import android.util.FloatMath;
+
 
 public class AudioPlayback extends Activity {
 	@Override
@@ -16,11 +19,12 @@ public class AudioPlayback extends Activity {
 				audioModder.init();
 				// Up until this point, all data is what we think it should be
 				HACKED_SAMPLES finalOut = new HACKED_SAMPLES();
+				double az = 0;
 
 				while (true) {
+					az = az + 0.1;
 					// Update position
-					audioModder.updateLocation(0.0, 0.0, 5.0);
-					;
+					audioModder.updateLocation(az, 0.0, 5.0);
 
 					// Futz the input sound
 					finalOut = audioModder.runAudio3D();

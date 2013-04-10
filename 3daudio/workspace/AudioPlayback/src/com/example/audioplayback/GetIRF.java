@@ -12,6 +12,7 @@ import java.io.InputStreamReader;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
+import java.util.Arrays;
 
 import android.util.FloatMath;
 
@@ -70,7 +71,6 @@ public class GetIRF {
 	******************* */
 	GetIRF () {
 		irf_data = new HACKED_SAMPLES[14][72];
-		read_irfs();
 		
 		// create sine wave
 		final float frequency = 441/2;
@@ -82,13 +82,8 @@ public class GetIRF {
            sineWave[i] = (float)FloatMath.sin(angle);
            angle += increment;
         }
-		/*Nevermind, we don't need to do this Fill in the first part of the sine wave
-		for(int i=0; i<front_sine; i++){
-			sineWave[i] = sineWave[i+front_sine+(hacked_time_samples-time_samples)];
-		}
-		for(int i=hacked_time_samples+front_sine; i<sineWave.length; i++){
-			sineWave[i] = sineWave[i+front_sine];
-		}*/
+		
+		read_irfs();
 	}
 	
 	
@@ -207,6 +202,7 @@ public class GetIRF {
         }
         
         // Now we are going to modify the data so that it contains our desired hacked values
+        
         irf_data[el_index][az_index].left = ConvolveHack.convolve(sineWave,data.left);
         irf_data[el_index][az_index].right = ConvolveHack.convolve(sineWave,data.right);
 	}
