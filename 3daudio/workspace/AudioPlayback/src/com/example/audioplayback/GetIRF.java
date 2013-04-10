@@ -13,6 +13,8 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
 
+import android.util.FloatMath;
+
 public class GetIRF {
 	
 	//bounds on elevation values
@@ -53,7 +55,13 @@ public class GetIRF {
 	 ****************************************************/
 	//14 different elevations at 10 degree increments (-40 to 90)
 	//72 different azimuth measurements MAXIMUM (some are less)
-	public IRF_DATUM[][] irf_data;
+	public HACKED_SAMPLES[][] irf_data;
+	
+	// This contains the sine wave that we are hacking
+	public final int hacked_time_samples = 150;
+	/*public final int front_sine = time_samples;
+	public final int end_sine = hacked_time_samples+time_samples*2 - time_samples;*/
+	public float[] sineWave = new float[hacked_time_samples+time_samples];
 	
 	/******************
 	 * I don't think you need these parameters
@@ -61,17 +69,26 @@ public class GetIRF {
 	 * @param elevation
 	******************* */
 	GetIRF () {
-		irf_data = new IRF_DATUM[14][72];
+		irf_data = new HACKED_SAMPLES[14][72];
 		read_irfs();
 		
-		//System.err.println("Finished loading IRFs");
-		
-		/*********************************
-		 * Why is there data in here already? shouldn't
-		 * it be general azimuth and elevation?
-		 * 
-		 *********************************/
-		//return get_irf(50, 184);
+		// create sine wave
+		final float frequency = 441/2;
+        float increment = (float)(2*Math.PI) * frequency / 44100; // angular increment for each sample
+        float angle = 0;
+        
+		for( int i=0; i < sineWave.length; i++ )
+        {
+           sineWave[i] = (float)FloatMath.sin(angle);
+           angle += increment;
+        }
+		/*Nevermind, we don't need to do this Fill in the first part of the sine wave
+		for(int i=0; i<front_sine; i++){
+			sineWave[i] = sineWave[i+front_sine+(hacked_time_samples-time_samples)];
+		}
+		for(int i=hacked_time_samples+front_sine; i<sineWave.length; i++){
+			sineWave[i] = sineWave[i+front_sine];
+		}*/
 	}
 	
 	
@@ -107,9 +124,6 @@ public class GetIRF {
 	public void read_irf(int el_index, int az_index)
 	{		
 		String filename = irf_name(el_index, az_index);
-		//System.err.println("file name: " + filename);
-		
-		//BufferedReader bufferedReader = null;
 	    
 		//line number
 		int linecount = 0;
@@ -117,17 +131,9 @@ public class GetIRF {
 		int linecountmod = 0;
 		//time sample in double format
 		double sample;
+		IRF_DATUM data = new IRF_DATUM();
 		
-		//InputStream inputStream = ctx.getResources().openRawResource(resId);
-		//InputStreamReader inputreader = new InputStreamReader(inputStream);
-    	//BufferedReader buffreader = new BufferedReader(new InputStreamReader(inputStream));
-    	//BufferedReader bufferedreader = new BufferedReader(new InputStreamReader(this.getResources().openRawResource(R.raw.textfile)));
-		
-		//String file = "res/raw/h_10e000a.txt";
-		
-		//System.err.println("get Resource as Stream: " + getClass().getClassLoader().getResourceAsStream(filename));
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
-		//InputStreamReader inputreader = new InputStreamReader(in);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
 		
 		String line;
@@ -150,7 +156,7 @@ public class GetIRF {
             	
             	if(irf_data[el_index][az_index] == null)
         		{
-        			irf_data[el_index][az_index] = new IRF_DATUM();
+        			irf_data[el_index][az_index] = new HACKED_SAMPLES();
         			//irf_data[el_index][az_index].left = new float[]
         		}
             	
@@ -159,7 +165,7 @@ public class GetIRF {
             	{
             		linecountmod = linecount % 128;
             		
-            		irf_data[el_index][az_index].right[linecountmod] = (float) sample;
+            		data.right[linecountmod] = (float) sample;
             	}
             	
             	//if time samples <= 128, it is on the left side
@@ -167,7 +173,7 @@ public class GetIRF {
             	{		
             		//System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
             		
-            		irf_data[el_index][az_index].left[linecount] = (float) sample;
+            		data.left[linecount] = (float) sample;
             	}
             	
             	linecount++;
@@ -199,6 +205,10 @@ public class GetIRF {
                 ex.printStackTrace();
             }
         }
+        
+        // Now we are going to modify the data so that it contains our desired hacked values
+        irf_data[el_index][az_index].left = ConvolveHack.convolve(sineWave,data.left);
+        irf_data[el_index][az_index].right = ConvolveHack.convolve(sineWave,data.right);
 	}
 	
 	//returns IRF pathname specified by indices
@@ -220,7 +230,7 @@ public class GetIRF {
 		return hrtfname;
 	}
 	
-	public float[][] get_irf(double elev, double azim)
+	public HACKED_SAMPLES get_irf(double elev, double azim)
 	{
 		//System.out.println("Entered get_irf");
 		/*
@@ -229,8 +239,7 @@ public class GetIRF {
 		 * to fetch these two channels from an already-2D array.
 		 */
 		//used to store IRF information
-		IRF_DATUM hd;
-		float[][] returnArray = new float[2][time_samples];
+		HACKED_SAMPLES hd;
 		
 		//get elevation and azimuth indices (also get in correct range)
 		cur_el_index = get_el_index(elev);
@@ -264,10 +273,8 @@ public class GetIRF {
 			hd.left = hd.right;
 			hd.right = temp;
 		}
-		returnArray[0] = hd.left;
-		returnArray[1] = hd.right;
 		
-		return returnArray;
+		return hd;
 	}
 	
 	/*

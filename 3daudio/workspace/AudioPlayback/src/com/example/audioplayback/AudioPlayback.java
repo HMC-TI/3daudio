@@ -4,51 +4,35 @@ import android.os.Bundle;
 import android.app.Activity;
 import android.util.FloatMath;
 
-public class AudioPlayback extends Activity
-{	    
-   @Override
-   public void onCreate(Bundle savedInstanceState) 
-   {
-      super.onCreate(savedInstanceState);                      
- 
-      new Thread( new Runnable( ) 
-      {
-         public void run( )
-         {        		
-            final float frequency = 440;
-            float increment = (float)(2*Math.PI) * frequency / 44100; // angular increment for each sample
-            float angle = 0;
-            AndroidAudioDevice device = new AndroidAudioDevice( );
-            float samples[] = new float[128];
-           	Audio3D audioModder = new Audio3D(samples, samples, 0, 5, 0, false);
-           	audioModder.init();
-           	// Up until this point, all data is what we think it should be
-            IRF_DATUM finalOut = new IRF_DATUM();
-            
-            while( true )
-            {
-            	for( int i = 0; i < samples.length; i++ )
-                {
-                   samples[i] = (float)FloatMath.sin(angle);
-                   angle += increment;
-                }
-            	
-               // Update position
-               audioModder.updateLocation(0.0, 0.0, 5.0); // Change this to actual changing values later
-               audioModder.updateInbuf(samples, samples);
-               // Instantiate Audio3D class and output datum
-           	//Audio3D audioModder = new Audio3D(samples, samples, azimGen.az, dist, el, false);
-               
-               // Futz the input sound 
-           	finalOut = audioModder.runAudio3D();
-              
-           	
-           	// Return final output
-              //device.writeSamples(finalOut.left );
- 
-               device.writeSamples( samples );
-            }        	
-         }
-      } ).start();
-   }
+public class AudioPlayback extends Activity {
+	@Override
+	public void onCreate(Bundle savedInstanceState) {
+		super.onCreate(savedInstanceState);
+
+		new Thread(new Runnable() {
+			public void run() {
+				AndroidAudioDevice device = new AndroidAudioDevice();
+				Audio3D audioModder = new Audio3D(0, 5);
+				audioModder.init();
+				// Up until this point, all data is what we think it should be
+				HACKED_SAMPLES finalOut = new HACKED_SAMPLES();
+
+				while (true) {
+					// Update position
+					audioModder.updateLocation(0.0, 0.0, 5.0);
+					;
+
+					// Futz the input sound
+					finalOut = audioModder.runAudio3D();
+
+					// Return final output
+					// device.writeSamples(finalOut.left );
+
+					// we need to fix this so that we can do both audio changes
+					// at once
+					device.writeSamples(finalOut.left);
+				}
+			}
+		}).start();
+	}
 }
