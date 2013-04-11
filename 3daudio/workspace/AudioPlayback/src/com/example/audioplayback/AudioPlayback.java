@@ -8,6 +8,7 @@ import android.util.FloatMath;
 
 
 public class AudioPlayback extends Activity {
+	public static int sample_size = 150;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -18,7 +19,8 @@ public class AudioPlayback extends Activity {
 				Audio3D audioModder = new Audio3D(0, 5);
 				audioModder.init();
 				// Up until this point, all data is what we think it should be
-				HACKED_SAMPLES finalOut = new HACKED_SAMPLES();
+				HACKED_SAMPLES out = new HACKED_SAMPLES();
+				float[] finalOut = new float[sample_size*2];
 				double az = 0;
 
 				while (true) {
@@ -27,14 +29,20 @@ public class AudioPlayback extends Activity {
 					audioModder.updateLocation(az, 0.0, 5.0);
 
 					// Futz the input sound
-					finalOut = audioModder.runAudio3D();
+					out = audioModder.runAudio3D();
+					
+					// Interleave left and right channels for stereo output
+					for (int i = 0; i < out.left.length; i++) {
+						finalOut[i] = out.left[i];
+						finalOut[i+1] = out.right[i];
+					}
 
 					// Return final output
 					// device.writeSamples(finalOut.left );
 
 					// we need to fix this so that we can do both audio changes
 					// at once
-					device.writeSamples(finalOut.left);
+					device.writeSamples(finalOut);
 				}
 			}
 		}).start();
