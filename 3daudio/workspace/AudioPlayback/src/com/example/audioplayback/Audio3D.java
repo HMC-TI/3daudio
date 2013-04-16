@@ -7,6 +7,7 @@ public class Audio3D {
 
 	//number of time samples
 	static final int time_samples = 128;
+	static final int hacked_time_samples = 150;
 	
 	// Public members
 	static double az;
@@ -17,6 +18,7 @@ public class Audio3D {
 	
 	static HACKED_SAMPLES oldOut = new HACKED_SAMPLES();
 	static HACKED_SAMPLES newOut = new HACKED_SAMPLES();
+	float[] finalOut = new float[hacked_time_samples*2];
 	
 	static boolean cfFlag; // Are we cross-fading or what?
 	static float[] rampUp = new float[time_samples];
@@ -31,7 +33,7 @@ public class Audio3D {
 		Audio3D.oldElev = elevation;
 	}
 	
-	public HACKED_SAMPLES runAudio3D() {
+	public float[] runAudio3D() {
 		// ///////////////////////////
 		// Checks for cross-fading //
 		// ///////////////////////////
@@ -58,7 +60,12 @@ public class Audio3D {
 		oldElev = elev;
 		oldOut = newOut;
 		
-		return newOut;
+		for (int i = 0; i < newOut.left.length; i++) {
+			finalOut[i*2] = 10*newOut.left[i];
+			finalOut[i*2 + 1] = 10*newOut.right[i];
+		}
+		
+		return finalOut;
 	}
 	
 	//////////////////////////////
