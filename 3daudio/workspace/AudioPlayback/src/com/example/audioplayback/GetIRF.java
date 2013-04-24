@@ -27,9 +27,6 @@ public class GetIRF {
 	//bounds on azimuth values
 	static final int MIN_AZIM = -180;
 	static final int MAX_AZIM = 180;
-
-	//number of time samples
-	static final int time_samples = 128;
 	
 	// Other variables necessary for getIrf
 	//determine if a flip is necessary
@@ -59,30 +56,10 @@ public class GetIRF {
 	public HACKED_SAMPLES[][] irf_data;
 	
 	// This contains the sine wave that we are hacking
-	public final int hacked_time_samples = 150;
-	/*public final int front_sine = time_samples;
-	public final int end_sine = hacked_time_samples+time_samples*2 - time_samples;*/
-	public float[] sineWave = new float[hacked_time_samples+time_samples];
+	public final int hacked_time_samples = 200;
 	
-	/******************
-	 * I don't think you need these parameters
-	 * @param azimuth
-	 * @param elevation
-	******************* */
 	GetIRF () {
 		irf_data = new HACKED_SAMPLES[14][72];
-		
-		// create sine wave
-		final float frequency = 441/2;
-        float increment = (float)(2*Math.PI) * frequency / 44100; // angular increment for each sample
-        float angle = 0;
-        
-		for( int i=0; i < sineWave.length; i++ )
-        {
-           sineWave[i] = (float)FloatMath.sin(angle);
-           angle += increment;
-        }
-		
 		read_irfs();
 	}
 	
@@ -91,11 +68,6 @@ public class GetIRF {
 	// Helper functions for getIrf //
 	/////////////////////////////////
 	//Reads in all IRFs by looping through all possible elevations and azimuths
-	/*****************
-	 * I don't think you need these parameters
-	 * @param az_index
-	 * @param el_index
-	 **********************/
 	public void read_irfs()
 	{
 		int nfaz;
@@ -126,7 +98,6 @@ public class GetIRF {
 		int linecountmod = 0;
 		//time sample in double format
 		double sample;
-		IRF_DATUM data = new IRF_DATUM();
 		
 		InputStream in = this.getClass().getClassLoader().getResourceAsStream(filename);
 		BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(in));
@@ -156,11 +127,11 @@ public class GetIRF {
         		}
             	
             	//if time_samples > 128, then it is the right side
-            	if(linecount >= time_samples)
+            	if(linecount >= hacked_time_samples)
             	{
             		linecountmod = linecount % 128;
             		
-            		data.right[linecountmod] = (float) sample;
+            		irf_data[el_index][az_index].right[linecountmod] = (float) sample;
             	}
             	
             	//if time samples <= 128, it is on the left side
@@ -168,7 +139,7 @@ public class GetIRF {
             	{		
             		//System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
             		
-            		data.left[linecount] = (float) sample;
+            		irf_data[el_index][az_index].left[linecount] = (float) sample;
             	}
             	
             	linecount++;
@@ -200,11 +171,6 @@ public class GetIRF {
                 ex.printStackTrace();
             }
         }
-        
-        // Now we are going to modify the data so that it contains our desired hacked values
-        
-        irf_data[el_index][az_index].left = ConvolveHack.convolve(sineWave,data.left);
-        irf_data[el_index][az_index].right = ConvolveHack.convolve(sineWave,data.right);
 	}
 	
 	//returns IRF pathname specified by indices
@@ -213,9 +179,6 @@ public class GetIRF {
 		int elev = index_to_elev(el_index);
 		int azim = index_to_azim(el_index, az_index);
 		
-		//pathname based on elev and azim
-		// TODO: CHANGE THIS PATH TO SUIT CURRENT MACHINE!
-		// Better yet, change it to a relative path!
 		String hrtfname;
 		if (elev < 0) {
 			int mag = Math.abs(elev);

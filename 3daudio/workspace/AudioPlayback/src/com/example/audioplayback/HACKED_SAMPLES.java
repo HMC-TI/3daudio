@@ -1,7 +1,7 @@
 package com.example.audioplayback;
 
 public class HACKED_SAMPLES {
-	public static int sample_size = 150;
+	public static int sample_size = 200;
 
 	//float[] left;
 	//float[] right;

@@ -8,7 +8,7 @@ import android.util.FloatMath;
 
 
 public class AudioPlayback extends Activity {
-	public static int sample_size = 150;
+	public static int sample_size = 200;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -16,8 +16,7 @@ public class AudioPlayback extends Activity {
 		new Thread(new Runnable() {
 			public void run() {
 				AndroidAudioDevice device = new AndroidAudioDevice();
-				Audio3D audioModder = new Audio3D(0, 5);
-				audioModder.init();
+				Audio3D audioModder = new Audio3D(0, 0);
 				// Up until this point, all data is what we think it should be
 				float[] out;
 				double az = 0;
@@ -25,7 +24,7 @@ public class AudioPlayback extends Activity {
 				while (true) {
 					az = az + 0.1;
 					// Update position
-					audioModder.updateLocation(az, 0.0, 5.0);
+					audioModder.updateLocation(az, 0.0);
 
 					// Futz the input sound
 					out = audioModder.runAudio3D();
