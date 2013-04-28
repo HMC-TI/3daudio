@@ -36,12 +36,6 @@ public class GetIRF {
 	static int cur_el_index;
 	static int cur_az_index;
 	static boolean cur_flip_flag;
-	static int last_el_index;
-	static int last_az_index;
-	static boolean last_flip_flag;
-	static double cur_atten;
-	static double last_atten;
-	static boolean changed;
 	
 	//number of azimuth data points per elevation (-40 to 90, increments of 10)
 	public static int[] elev_data = {56, 60, 72, 72, 72, 72, 72, 60, 56, 45, 36, 24, 12, 1};
@@ -54,9 +48,6 @@ public class GetIRF {
 	//14 different elevations at 10 degree increments (-40 to 90)
 	//72 different azimuth measurements MAXIMUM (some are less)
 	public HACKED_SAMPLES[][] irf_data;
-	
-	// This contains the sine wave that we are hacking
-	public final int hacked_time_samples = 200;
 	
 	GetIRF () {
 		irf_data = new HACKED_SAMPLES[14][72];
@@ -127,9 +118,9 @@ public class GetIRF {
         		}
             	
             	//if time_samples > 128, then it is the right side
-            	if(linecount >= hacked_time_samples)
+            	if(linecount >= HACKED_SAMPLES.sample_size)
             	{
-            		linecountmod = linecount % 128;
+            		linecountmod = linecount % HACKED_SAMPLES.sample_size;
             		
             		irf_data[el_index][az_index].right[linecountmod] = (float) sample;
             	}
@@ -206,17 +197,6 @@ public class GetIRF {
 		cur_az_index = get_az_index(elev, azim);
 		//System.out.format("cur_az_index is %d for an azim of %d%n", cur_az_index, azim);
 
-		//if anything has changed
-		if (cur_el_index != last_el_index || cur_az_index != last_az_index || cur_flip_flag != last_flip_flag)
-		{
-			changed = true;
-		}
-		
-		//update indices
-		last_el_index = cur_el_index;
-		last_az_index = cur_az_index;
-		last_flip_flag = cur_flip_flag;
-
 		//System.out.println("About to access irf_data");
 		//Get data and flip channels if necessary.
 		hd = irf_data[cur_el_index][cur_az_index];
@@ -232,6 +212,7 @@ public class GetIRF {
 			hd.left = hd.right;
 			hd.right = temp;
 		}
+		//System.out.println(cur_flip_flag);
 		
 		return hd;
 	}
@@ -258,9 +239,9 @@ public class GetIRF {
 		if (azim < 0) azim += 360;
 		if (azim > 180) {
 			azim = 360 - azim;
-			flip = true;
+			cur_flip_flag = true;
 		}
-		else flip = false;
+		else cur_flip_flag = false;
 		
 		/*
 		 * Now 0 <= azim <= 180. Calculate index and clip to

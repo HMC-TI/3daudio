@@ -4,16 +4,14 @@ import java.util.Arrays;
 
 public class Audio3D {	
 	// Constants
-
-	//number of time samples
-	static final int hacked_time_samples = 200;
 	
 	// Public members
 	static double az;
 	static double elev = 0;
 	
 	static HACKED_SAMPLES newOut = new HACKED_SAMPLES();
-	float[] finalOut = new float[hacked_time_samples*2];
+	float[] finalOut = new float[HACKED_SAMPLES.sample_size*2];
+	//float[] finalOut = new float[HACKED_SAMPLES.sample_size];
 	
 	public GetIRF getIrf = new GetIRF();
 	
@@ -35,6 +33,7 @@ public class Audio3D {
 		}
 		
 		return finalOut;
+		//return newOut.left;
 	}
 	
 	/*************************************************

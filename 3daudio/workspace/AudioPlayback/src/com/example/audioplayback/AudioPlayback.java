@@ -8,7 +8,6 @@ import android.util.FloatMath;
 
 
 public class AudioPlayback extends Activity {
-	public static int sample_size = 200;
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -20,15 +19,27 @@ public class AudioPlayback extends Activity {
 				// Up until this point, all data is what we think it should be
 				float[] out;
 				double az = 0;
+				double elev = 0;
+				boolean flip = false;
 
 				while (true) {
 					az = az + 0.1;
+				
+					//az = -45;
+					
+					//System.out.println("The azimuth is " + az%360);
+					
 					// Update position
-					audioModder.updateLocation(az, 0.0);
+					audioModder.updateLocation(az, elev);
 
 					// Futz the input sound
 					out = audioModder.runAudio3D();
-
+					
+					//System.out.println(Arrays.toString(out));
+//					System.out.println(out.length);
+//					System.out.println(out[390]);
+//					System.out.println(out[398]);
+//					System.out.println(out[399]);
 					// Return final output
 					// device.writeSamples(finalOut.left );
 
