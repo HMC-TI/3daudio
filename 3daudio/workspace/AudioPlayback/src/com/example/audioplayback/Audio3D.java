@@ -45,7 +45,7 @@ public class Audio3D {
 	static boolean cfFlag; // Are we cross-fading or what?
 	static float[] rampUp = new float[time_samples];
 	static float[] rampDn = new float[time_samples];
-	
+	float[] finalOut = new float[time_samples*2];
 	public GetIRF getIrf = new GetIRF();
 	
 	private IRF_DATUM outputs = new IRF_DATUM();
@@ -79,7 +79,7 @@ public class Audio3D {
 		}
 	}
 	
-	public IRF_DATUM runAudio3D() {
+	public float[] runAudio3D() {
 		// ///////////////////////////
 		// Checks for cross-fading //
 		// ///////////////////////////
@@ -118,7 +118,11 @@ public class Audio3D {
 		 * outputs.right = newOut_r;
 		 * outputs.left = newOut_l;
 		 */
-		return outputs;
+		for (int i = 0; i < outputs.left.length; i++) {
+			finalOut[i*2] = outputs.left[i];
+			finalOut[i*2 + 1] = outputs.right[i];
+		}
+		return finalOut;
 	}
 	
 	//////////////////////////////
