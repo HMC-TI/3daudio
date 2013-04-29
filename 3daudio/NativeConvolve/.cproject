@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<?fileVersion 4.0.0?><cproject storage_type_id="org.eclipse.cdt.core.XmlProjectDescriptionStorage">
+	<storageModule moduleId="org.eclipse.cdt.core.settings">
+		<cconfiguration id="com.android.toolchain.gcc.328278599">
+			<storageModule buildSystemId="org.eclipse.cdt.managedbuilder.core.configurationDataProvider" id="com.android.toolchain.gcc.328278599" moduleId="org.eclipse.cdt.core.settings" name="Default">
+				<externalSettings/>
+				<extensions>
+					<extension id="org.eclipse.cdt.core.ELF" point="org.eclipse.cdt.core.BinaryParser"/>
+					<extension id="org.eclipse.cdt.core.GmakeErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.CWDLocator" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GCCErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GASErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+					<extension id="org.eclipse.cdt.core.GLDErrorParser" point="org.eclipse.cdt.core.ErrorParser"/>
+				</extensions>
+			</storageModule>
+			<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+				<configuration buildProperties="" description="" id="com.android.toolchain.gcc.328278599" name="Default" parent="org.eclipse.cdt.build.core.emptycfg">
+					<folderInfo id="com.android.toolchain.gcc.328278599.1937918561" name="/" resourcePath="">
+						<toolChain id="com.android.toolchain.gcc.783913454" name="com.android.toolchain.gcc" superClass="com.android.toolchain.gcc">
+							<targetPlatform archList="all" binaryParser="org.eclipse.cdt.core.ELF" id="com.android.targetPlatform.2121605561" name="Android Platform" osList="all" superClass="com.android.targetPlatform"/>
+							<builder arguments="" command="E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\ndk-build.cmd" id="com.android.builder.2082998179" keepEnvironmentInBuildfile="false" managedBuildOn="false" superClass="com.android.builder">
+								<outputEntries>
+									<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="outputPath" name="libs"/>
+								</outputEntries>
+							</builder>
+							<tool id="cdt.managedbuild.tool.gnu.archiver.base.569924182" name="GCC Archiver" superClass="cdt.managedbuild.tool.gnu.archiver.base"/>
+							<tool id="com.android.tool.compiler.g++.1959763681" name="Android G++" superClass="com.android.tool.compiler.g++">
+								<inputType id="com.android.tool.compiler.g++.input.197513945" superClass="com.android.tool.compiler.g++.input"/>
+							</tool>
+							<tool id="com.android.tool.compiler.c.224158638" name="Android GCC" superClass="com.android.tool.compiler.c">
+								<option id="gnu.c.compiler.option.include.paths.1274454285" superClass="gnu.c.compiler.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-14\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-9\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\toolchains\arm-linux-androideabi-4.4.3\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.4.3\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-3\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-4\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-5\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-8\arch-arm\usr\include&quot;"/>
+								</option>
+								<inputType id="com.android.tool.compiler.c.input.834480801" superClass="com.android.tool.compiler.c.input"/>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.c.linker.base.1324381354" name="GCC C Linker" superClass="cdt.managedbuild.tool.gnu.c.linker.base"/>
+							<tool id="cdt.managedbuild.tool.gnu.cpp.linker.base.1096230370" name="GCC C++ Linker" superClass="cdt.managedbuild.tool.gnu.cpp.linker.base">
+								<inputType id="cdt.managedbuild.tool.gnu.cpp.linker.input.1137065090" superClass="cdt.managedbuild.tool.gnu.cpp.linker.input">
+									<additionalInput kind="additionalinputdependency" paths="$(USER_OBJS)"/>
+									<additionalInput kind="additionalinput" paths="$(LIBS)"/>
+								</inputType>
+							</tool>
+							<tool id="cdt.managedbuild.tool.gnu.assembler.base.712164235" name="GCC Assembler" superClass="cdt.managedbuild.tool.gnu.assembler.base">
+								<option id="gnu.both.asm.option.include.paths.2070282059" name="Include paths (-I)" superClass="gnu.both.asm.option.include.paths" valueType="includePath">
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-14\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-9\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\toolchains\arm-linux-androideabi-4.4.3\prebuilt\windows\lib\gcc\arm-linux-androideabi\4.4.3\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-3\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-4\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-5\arch-arm\usr\include&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;E:\Users\Safir\android-ndk-r8d-windows\android-ndk-r8d\platforms\android-8\arch-arm\usr\include&quot;"/>
+								</option>
+								<inputType id="cdt.managedbuild.tool.gnu.assembler.input.325825664" superClass="cdt.managedbuild.tool.gnu.assembler.input"/>
+							</tool>
+						</toolChain>
+					</folderInfo>
+					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="jni"/>
+					</sourceEntries>
+				</configuration>
+			</storageModule>
+			<storageModule moduleId="org.eclipse.cdt.core.externalSettings"/>
+		</cconfiguration>
+	</storageModule>
+	<storageModule moduleId="cdtBuildSystem" version="4.0.0">
+		<project id="NativeConvolve.null.368527348" name="NativeConvolve"/>
+	</storageModule>
+	<storageModule moduleId="org.eclipse.cdt.core.LanguageSettingsProviders"/>
+	<storageModule moduleId="scannerConfiguration">
+		<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId=""/>
+		<scannerConfigBuildInfo instanceId="com.android.toolchain.gcc.328278599;com.android.toolchain.gcc.328278599.1937918561;com.android.tool.compiler.c.224158638;com.android.tool.compiler.c.input.834480801">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile"/>
+		</scannerConfigBuildInfo>
+		<scannerConfigBuildInfo instanceId="com.android.toolchain.gcc.328278599;com.android.toolchain.gcc.328278599.1937918561;com.android.tool.compiler.g++.1959763681;com.android.tool.compiler.g++.input.197513945">
+			<autodiscovery enabled="true" problemReportingEnabled="true" selectedProfileId="org.eclipse.cdt.make.core.GCCStandardMakePerFileProfile"/>
+		</scannerConfigBuildInfo>
+	</storageModule>
+	<storageModule moduleId="refreshScope" versionNumber="2">
+		<configuration configurationName="Default">
+			<resource resourceType="PROJECT" workspacePath="/NativeConvolve"/>
+		</configuration>
+	</storageModule>
+</cproject>
