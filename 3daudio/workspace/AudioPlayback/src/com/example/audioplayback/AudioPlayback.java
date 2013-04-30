@@ -20,19 +20,18 @@ public class AudioPlayback extends Activity {
 				float[] out;
 				double az = 0;
 				double elev = 0;
-				boolean flip = false;
 
 				while (true) {
 					az = az + 0.1;
 				
-					//az = -45;
+					//az = -90;
 					
 					//System.out.println("The azimuth is " + az%360);
 					
 					// Update position
 					audioModder.updateLocation(az, elev);
 
-					// Futz the input sound
+					// The sound to be played
 					out = audioModder.runAudio3D();
 					
 					//System.out.println(Arrays.toString(out));

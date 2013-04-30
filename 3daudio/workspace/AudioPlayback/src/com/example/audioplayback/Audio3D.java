@@ -27,9 +27,17 @@ public class Audio3D {
 		// ////////////
 		loadIRFs();
 		
+		
 		for (int i = 0; i < newOut.left.length; i++) {
-			finalOut[i*2] = newOut.left[i];
-			finalOut[i*2 + 1] = newOut.right[i];
+			// This flips the data if we are on the left side.
+			if (getIrf.cur_flip_flag) {
+			finalOut[i*2] = newOut.right[i];
+			finalOut[i*2 + 1] = newOut.left[i];
+			}
+			else {
+				finalOut[i*2] = newOut.left[i];
+				finalOut[i*2 + 1] = newOut.right[i];
+			}
 		}
 		
 		return finalOut;

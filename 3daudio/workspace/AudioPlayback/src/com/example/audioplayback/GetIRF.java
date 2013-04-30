@@ -28,10 +28,6 @@ public class GetIRF {
 	static final int MIN_AZIM = -180;
 	static final int MAX_AZIM = 180;
 	
-	// Other variables necessary for getIrf
-	//determine if a flip is necessary
-	static boolean flip;
-	
 	//variables to keep track of new information
 	static int cur_el_index;
 	static int cur_az_index;
@@ -40,11 +36,6 @@ public class GetIRF {
 	//number of azimuth data points per elevation (-40 to 90, increments of 10)
 	public static int[] elev_data = {56, 60, 72, 72, 72, 72, 72, 60, 56, 45, 36, 24, 12, 1};
 	
-	/***************************************************
-	 * Why are you creating your own class and returning it for an array
-	 * of [2][128]? There's no reason to rebuild code that already exists
-	 * You could simply make a 2D array that is 14 wide and 72*2 high
-	 ****************************************************/
 	//14 different elevations at 10 degree increments (-40 to 90)
 	//72 different azimuth measurements MAXIMUM (some are less)
 	public HACKED_SAMPLES[][] irf_data;
@@ -96,15 +87,7 @@ public class GetIRF {
 		String line;
 		
         try 
-        {
-        	
-            //Construct the BufferedReader object
-         //   bufferedReader = new BufferedReader(new FileReader(filename));
-            
-          //  String line = null;
-            
-         //   while ((line = bufferedReader.readLine()) != null) 
-        	
+        {	
         	line = bufferedReader.readLine();
         	
         	while (line != null)
@@ -114,10 +97,9 @@ public class GetIRF {
             	if(irf_data[el_index][az_index] == null)
         		{
         			irf_data[el_index][az_index] = new HACKED_SAMPLES();
-        			//irf_data[el_index][az_index].left = new float[]
         		}
             	
-            	//if time_samples > 128, then it is the right side
+            	//if it is the right side
             	if(linecount >= HACKED_SAMPLES.sample_size)
             	{
             		linecountmod = linecount % HACKED_SAMPLES.sample_size;
@@ -125,11 +107,9 @@ public class GetIRF {
             		irf_data[el_index][az_index].right[linecountmod] = (float) sample;
             	}
             	
-            	//if time samples <= 128, it is on the left side
+            	//if it is on the left side
             	else if(linecount > -1)
-            	{		
-            		//System.out.println("irf data out: " + irf_data[el_index][az_index].left[linecount]);
-            		
+            	{
             		irf_data[el_index][az_index].left[linecount] = (float) sample;
             	}
             	
@@ -182,36 +162,23 @@ public class GetIRF {
 	
 	public HACKED_SAMPLES get_irf(double elev, double azim)
 	{
-		//System.out.println("Entered get_irf");
-		/*
-		 * Returns a 2D array with the left channel IRFs in [0] row and
-		 * the right channel IRFs in the [1] row. Uses a special datatype, IRF_DATUM,
-		 * to fetch these two channels from an already-2D array.
-		 */
-		//used to store IRF information
+		// Data to be returned
 		HACKED_SAMPLES hd;
 		
 		//get elevation and azimuth indices (also get in correct range)
 		cur_el_index = get_el_index(elev);
-		//System.out.format("cur_el_index is %d for an elev of %d%n", cur_el_index, elev);
 		cur_az_index = get_az_index(elev, azim);
-		//System.out.format("cur_az_index is %d for an azim of %d%n", cur_az_index, azim);
-
-		//System.out.println("About to access irf_data");
+		
 		//Get data and flip channels if necessary.
 		hd = irf_data[cur_el_index][cur_az_index];
 
-		//System.out.println("Retrieved IRF_DATUM from irf_data");
-		//hd.left = irf_data[cur_el_index][cur_az_index].left;
-		//hd.right = irf_data[cur_el_index][cur_az_index].right;
-
-		float[] temp;
+		/*float[] temp;
 		if (cur_flip_flag) 
 		{
 			temp = hd.left;
 			hd.left = hd.right;
 			hd.right = temp;
-		}
+		}*/
 		//System.out.println(cur_flip_flag);
 		
 		return hd;
@@ -219,7 +186,7 @@ public class GetIRF {
 	
 	/*
 	 * For a given elevation and azimuth in degrees, return the
-	 * indices for the proper HRTF. *p_flip will be set TRUE if
+	 * indices for the proper HRTF. 'cur_flip_flag will be set TRUE if
 	 * left and right channels need to be flipped.
 	 */
 	public static int get_az_index(double elev, double azim)
