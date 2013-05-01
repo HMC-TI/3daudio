@@ -172,12 +172,14 @@ public class GetIRF {
 		//Get data and flip channels if necessary.
 		hd = irf_data[cur_el_index][cur_az_index];
 
-		/*float[] temp;
+		/* maybe this will work better?
+		float[] temp;
 		if (cur_flip_flag) 
 		{
-			temp = hd.left;
-			hd.left = hd.right;
-			hd.right = temp;
+			temp = Arrays.copyOf(hd.left, hd.left.length);
+			free(hd.left);
+			hd.left = Arrays.copyOf(hd.right, hd.right.length);
+			hd.right = Arrays.copyOf(temp, temp.length);
 		}*/
 		//System.out.println(cur_flip_flag);
 		

@@ -24,9 +24,9 @@ public class AudioPlayback extends Activity {
 				while (true) {
 					az = az + 0.1;
 				
-					//az = -90;
+					//az = 90;
 					
-					//System.out.println("The azimuth is " + az%360);
+						//System.out.println("The azimuth is " + az%360);
 					
 					// Update position
 					audioModder.updateLocation(az, elev);
