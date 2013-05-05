@@ -34,7 +34,7 @@ public class Audio3D {
 			rampDn[i] = 1 - rampUp[i];
 		}
 		
-		System.out.println(Arrays.toString(rampDn));
+		//System.out.println(Arrays.toString(rampDn));
 	}
 
 	public float[] runAudio3D() {

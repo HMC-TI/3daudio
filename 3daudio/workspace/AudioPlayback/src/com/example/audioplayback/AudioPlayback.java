@@ -22,11 +22,11 @@ public class AudioPlayback extends Activity {
 				double elev = 0;
 
 				while (true) {
-					az = az + 0.1;
+					az = az + 0.1/2;
 				
-					//az = 90;
+					//az = 165;
 					
-						//System.out.println("The azimuth is " + az%360);
+					System.out.println("The azimuth is " + az%360);
 					
 					// Update position
 					audioModder.updateLocation(az, elev);
