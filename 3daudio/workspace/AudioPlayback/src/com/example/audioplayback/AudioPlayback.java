@@ -26,7 +26,7 @@ public class AudioPlayback extends Activity {
 				
 					//az = 165;
 					
-					System.out.println("The azimuth is " + az%360);
+					//System.out.println("The azimuth is " + az%360);
 					
 					// Update position
 					audioModder.updateLocation(az, elev);

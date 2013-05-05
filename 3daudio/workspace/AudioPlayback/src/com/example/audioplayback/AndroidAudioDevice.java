@@ -10,9 +10,11 @@ public class AndroidAudioDevice
  
    public AndroidAudioDevice( )
    {
-      int minSize =AudioTrack.getMinBufferSize( 44100, AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT );        
+      int minSize =AudioTrack.getMinBufferSize( 44100, AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT ); 
+      System.out.println(minSize);
+      
       track = new AudioTrack( AudioManager.STREAM_MUSIC, 44100, 
-                                        AudioFormat.CHANNEL_CONFIGURATION_STEREO, AudioFormat.ENCODING_PCM_16BIT, 
+                                        AudioFormat.CHANNEL_OUT_STEREO, AudioFormat.ENCODING_PCM_16BIT, 
                                         minSize, AudioTrack.MODE_STREAM);
       track.play();        
    }	   
