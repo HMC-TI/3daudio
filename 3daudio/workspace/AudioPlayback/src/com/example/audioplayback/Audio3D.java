@@ -13,7 +13,7 @@ public class Audio3D {
 
 	static HACKED_SAMPLES newOut = new HACKED_SAMPLES();
 	static HACKED_SAMPLES oldOut = new HACKED_SAMPLES();
-	float[] finalOut = new float[HACKED_SAMPLES.sample_size * 2];
+	float[] finalOut = new float[(HACKED_SAMPLES.sample_size + 4410)* 2]; 
 
 	// cross fading stuff
 	static boolean cfFlag;
@@ -42,15 +42,15 @@ public class Audio3D {
 		// ////////////
 		// Get current IRFs //
 		// ///////////		
-		if(cfFlag) {
-			loadOldIRFs();
-		}
+//		if(cfFlag) {
+//			loadOldIRFs();
+//		}
 		
 		loadIRFs();
 		
-		if(cfFlag) {
-			crossfade();
-		}
+//		if(cfFlag) {
+//			crossfade();
+//		}
 
 		for (int i = 0; i < newOut.left.length; i++) {
 			// This flips the data if we are on the left side.
@@ -66,7 +66,6 @@ public class Audio3D {
 		return finalOut;
 		// return newOut.left;
 	}
-
 	/*************************************************
 	 * New function
 	 **************************************************/

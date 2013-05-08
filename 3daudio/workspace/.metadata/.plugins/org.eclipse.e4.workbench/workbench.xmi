@@ -66,7 +66,7 @@
           <tags>persp.showIn:org.eclipse.team.ui.GenericHistoryView</tags>
           <tags>persp.showIn:org.eclipse.ui.views.ResourceNavigator</tags>
           <tags>persp.showIn:org.eclipse.ui.navigator.ProjectExplorer</tags>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_H1IKsXV1EeKMHo1BeNEyhQ" selectedElement="_H1IKsnV1EeKMHo1BeNEyhQ" horizontal="true">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_H1IKsXV1EeKMHo1BeNEyhQ" selectedElement="_H1Ixw3V1EeKMHo1BeNEyhQ" horizontal="true">
             <children xsi:type="basic:PartStack" xmi:id="_H1IKsnV1EeKMHo1BeNEyhQ" elementId="left" containerData="2500" selectedElement="_H1IKs3V1EeKMHo1BeNEyhQ">
               <tags>newtablook</tags>
               <tags>org.eclipse.e4.primaryNavigationStack</tags>
@@ -77,7 +77,7 @@
               <children xsi:type="advanced:Placeholder" xmi:id="_H1IxwXV1EeKMHo1BeNEyhQ" elementId="org.eclipse.jdt.junit.ResultView" toBeRendered="false" ref="_H1HjoHV1EeKMHo1BeNEyhQ"/>
             </children>
             <children xsi:type="basic:PartSashContainer" xmi:id="_H1Ixw3V1EeKMHo1BeNEyhQ" containerData="7500" selectedElement="_2MfLgK4IEeKWhoe3wrMJrA" horizontal="true">
-              <children xsi:type="basic:PartSashContainer" xmi:id="_2MfLgK4IEeKWhoe3wrMJrA" containerData="100" selectedElement="_H1IxyXV1EeKMHo1BeNEyhQ">
+              <children xsi:type="basic:PartSashContainer" xmi:id="_2MfLgK4IEeKWhoe3wrMJrA" containerData="100" selectedElement="_H1IxxHV1EeKMHo1BeNEyhQ">
                 <children xsi:type="advanced:Placeholder" xmi:id="_H1IxxHV1EeKMHo1BeNEyhQ" elementId="org.eclipse.ui.editorss" containerData="6102" ref="_HwHH0HV1EeKMHo1BeNEyhQ"/>
                 <children xsi:type="basic:PartStack" xmi:id="_H1IxyXV1EeKMHo1BeNEyhQ" elementId="bottom" containerData="3898" selectedElement="_tBwj8XV2EeKMHo1BeNEyhQ">
                   <tags>newtablook</tags>
@@ -132,17 +132,17 @@
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_ushj4LZ1EeKgM-HasU34Tw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="HACKED_SAMPLES.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="AudioPlayback/src/com/example/audioplayback/HACKED_SAMPLES.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/HACKED_SAMPLES.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;100&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/HACKED_SAMPLES.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;103&quot; selectionTopPixel=&quot;0&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_MUNlALZ3EeKgM-HasU34Tw" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="AudioPlayback.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="AudioPlayback/src/com/example/audioplayback/AudioPlayback.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/AudioPlayback.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;615&quot; selectionTopPixel=&quot;134&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/AudioPlayback.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;0&quot; selectionOffset=&quot;618&quot; selectionTopPixel=&quot;34&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>
         <children xsi:type="basic:Part" xmi:id="_W3iScLZ6EeK0PZSqi0J-_w" elementId="org.eclipse.e4.ui.compatibility.editor" contributionURI="bundleclass://org.eclipse.ui.workbench/org.eclipse.ui.internal.e4.compatibility.CompatibilityEditor" label="Audio3D.java" iconURI="platform:/plugin/org.eclipse.jdt.ui//icons/full/obj16/jcu_obj.gif" tooltip="AudioPlayback/src/com/example/audioplayback/Audio3D.java" closeable="true">
-          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/Audio3D.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;31&quot; selectionOffset=&quot;1149&quot; selectionTopPixel=&quot;645&quot;/>&#xA;&lt;/editor>"/>
+          <persistedState key="memento" value="&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?>&#xA;&lt;editor id=&quot;org.eclipse.jdt.ui.CompilationUnitEditor&quot;>&#xA;&lt;input factoryID=&quot;org.eclipse.ui.part.FileEditorInputFactory&quot; path=&quot;/AudioPlayback/src/com/example/audioplayback/Audio3D.java&quot;/>&#xA;&lt;editorState selectionHorizontalPixel=&quot;0&quot; selectionLength=&quot;70&quot; selectionOffset=&quot;327&quot; selectionTopPixel=&quot;127&quot;/>&#xA;&lt;/editor>"/>
           <tags>Editor</tags>
           <tags>removeOnHide</tags>
         </children>

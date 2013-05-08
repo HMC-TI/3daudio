@@ -22,7 +22,7 @@ public class AudioPlayback extends Activity {
 				double elev = 0;
 
 				while (true) {
-					az = az + 0.1;
+					az = az + 0.1*10;
 				
 					//az = 165;
 					
